@@ -27,17 +27,20 @@ jobs:
           const { PDFDocument } = require('pdf-lib');
 
           async function main() {
-            const files = fs.readdirSync('.')
+            const pdfDir = 'pdf';
+
+            const files = fs.readdirSync(pdfDir)
               .filter(file => file.toLowerCase().endsWith('.pdf'));
 
-            console.log(Found ${files.length} PDF files);
+            console.log(`Found ${files.length} PDF files`);
 
             fs.mkdirSync('processed', { recursive: true });
 
             for (const file of files) {
-              console.log(Processing: ${file});
+              console.log(`Processing: ${file}`);
 
-              const input = fs.readFileSync(file);
+              const input = fs.readFileSync(path.join(pdfDir, file));
+
               const pdf = await PDFDocument.load(input);
 
               pdf.setProducer('pdf-lib');
